@@ -1,43 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { catchError, map, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { Auth } from '../../interfaces/auth.interface';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   http = inject(HttpClient)
+  router = inject(Router)
   localStorageKey = 'token'
 
   signIn(email: string, password: string) {
-    return this.http.post<string>(`${environment.apiUrl}/auth/sign-in`, {
-      email,
-      password
-    }).pipe(
-      map(token => {
-        this.saveTokenToStorage(token);
-        return true;
-      }),
-      catchError(() => {
-        return of(false);
+    return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-in`, { email, password })
+    .pipe(
+      catchError(error => {
+        alert('Invalid email or password');
+        return of(null);
       })
-    );
+    )
+    .subscribe(auth => {
+      if (auth) {
+        this.saveTokenToStorage(auth.idToken);
+        this.router.navigate(['/profile']);
+        return true
+      }
+      return false
+    });
   }
 
   signUp(email: string, password: string) {
-    return this.http.post<string>(`${environment.apiUrl}/auth/sign-in`, {
+    return this.http.post<string>(`${environment.apiUrl}/auth/sign-up`, {
       email,
       password
-    }).pipe(
-      map(token => {
-        this.saveTokenToStorage(token);
-        return true;
-      }),
-      catchError(() => {
-        return of(false);
-      })
-    );
+    })
   }
 
   saveTokenToStorage(token: string) {

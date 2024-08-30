@@ -1,14 +1,15 @@
 <div class="flex items-center justify-center w-full h-screen">
-  <form class="border-primary border rounded-2xl p-10 flex flex-col gap-3 ">
+  <form class="border-primary border rounded-2xl p-10 flex flex-col gap-3 " (submit)="formSubmit($event)">
     <h1 class="text-3xl font-bold text-secondary pb-3">Sign In</h1>
     <mat-form-field>
       <mat-label>email</mat-label>
-      <input type="email" matInput>
+      <input name="email" type="email" matInput>
     </mat-form-field>
     <mat-form-field>
       <mat-label>password</mat-label>
-      <input type="password" matInput>
+      <input name="password" type="password" matInput>
     </mat-form-field>
+    <button type="submit" mat-stroked-button>Sign In</button>
     <div>
       <span>Don't have an account? </span>
       <a routerLink="/sign-up" class="text-secondary font-semibold">Sign Up!</a>
