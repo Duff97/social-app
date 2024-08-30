@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'sign-in',
+    redirectTo: 'profile',
     pathMatch: 'full'
   },
   {
@@ -16,4 +17,8 @@ export const routes: Routes = [
     path: 'sign-up',
     component: SignUpComponent
   },
+  {
+    path: 'profile',
+    component: ProfileComponent
+  }
 ];
