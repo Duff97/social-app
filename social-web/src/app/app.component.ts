@@ -19,7 +19,6 @@ export class AppComponent {
     const currentRoute = this.router.url;
 
     if (!token && !this.isAuthRoute(currentRoute)) {
-      console.log('hi')
       this.router.navigate(['/sign-in']);
     }
   }
