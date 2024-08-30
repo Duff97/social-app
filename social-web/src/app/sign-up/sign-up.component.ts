@@ -25,6 +25,13 @@ export class SignUpComponent {
     const passwordElement = form.elements.namedItem('password') as HTMLInputElement
     const password = passwordElement.value
 
-    this.authService.signIn(email, password)
+    const confirmPasswordElement = form.elements.namedItem('confirm-password') as HTMLInputElement
+    const confirmPassword = confirmPasswordElement.value
+
+    if (confirmPassword == password)
+      this.authService.signUp(email, password)
+    else
+      alert('Passwords do not match')
   }
+
 }

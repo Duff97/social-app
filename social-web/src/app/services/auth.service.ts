@@ -51,6 +51,11 @@ export class AuthService {
       return false
     })
   }
+  
+  signOut() {
+    localStorage.removeItem(this.localStorageKey)
+    this.router.navigate(['/sign-in'])
+  }
 
   saveTokenToStorage(token: string) {
     localStorage.setItem(this.localStorageKey, token)

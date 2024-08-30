@@ -1,3 +1,4 @@
 <div class="bg-bg-primary min-h-screen w-screen text-primary">
+  <app-navbar *ngIf="!isAuthRoute()" />
   <router-outlet />
 </div>
