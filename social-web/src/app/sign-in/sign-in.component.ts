@@ -17,7 +17,6 @@ export class SignInComponent {
 
   formSubmit(event: SubmitEvent) {
     event.preventDefault()
-    console.log('hi')
     const form = event.target as HTMLFormElement
     
     const emailElement = form.elements.namedItem('email') as HTMLInputElement

@@ -1,0 +1,11 @@
+{
+  "name": "social-app",
+  "version": "1.0.0",
+  "description": "A simple social network made for learning purposes",
+  "scripts": {
+    "api": "npm run start:dev --prefix ./social-api",
+    "web": "cd ./social-web && ng serve"
+  },
+  "author": "",
+  "license": "ISC"
+}

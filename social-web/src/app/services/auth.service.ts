@@ -17,24 +17,38 @@ export class AuthService {
     return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-in`, { email, password })
     .pipe(
       catchError(error => {
-        alert('Invalid email or password');
+        alert('Invalid email or password')
+        return of(null)
+      })
+    )
+    .subscribe(auth => {
+      if (auth) {
+        this.saveTokenToStorage(auth.idToken)
+        this.router.navigate(['/profile'])
+        return true
+      }
+      return false
+    })
+  }
+
+  signUp(email: string, password: string) {
+    return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-up`, {
+      email,
+      password
+    })
+    .pipe(
+      catchError(error => {
+        alert('Could not create account, try again');
         return of(null);
       })
     )
     .subscribe(auth => {
       if (auth) {
-        this.saveTokenToStorage(auth.idToken);
-        this.router.navigate(['/profile']);
+        this.saveTokenToStorage(auth.idToken)
+        this.router.navigate(['/profile'])
         return true
       }
       return false
-    });
-  }
-
-  signUp(email: string, password: string) {
-    return this.http.post<string>(`${environment.apiUrl}/auth/sign-up`, {
-      email,
-      password
     })
   }
 
