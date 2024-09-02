@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { Auth } from '../../interfaces/auth.interface';
+import { Auth } from '../../../interfaces/auth.interface';
 import { catchError, of } from 'rxjs';
 
 @Injectable({
@@ -21,18 +21,20 @@ export class AuthService {
         return of(null)
       })
     )
-    .subscribe(auth => {
-      if (auth) {
-        this.saveTokenToStorage(auth.idToken)
-        this.router.navigate(['/profile'])
-        return true
-      }
-      return false
-    })
+    .subscribe(
+      auth => {
+        if (auth) {
+          this.saveTokenToStorage(auth.idToken)
+          this.router.navigate(['/profile'])
+          return true
+        }
+        return false
+      })
   }
 
-  signUp(email: string, password: string) {
+  signUp(username: string, email: string, password: string) {
     return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-up`, {
+      username,
       email,
       password
     })
