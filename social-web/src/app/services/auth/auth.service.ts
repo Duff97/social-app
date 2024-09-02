@@ -17,7 +17,7 @@ export class AuthService {
     return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-in`, { email, password })
     .pipe(
       catchError(error => {
-        alert('Invalid email or password')
+        alert(error)
         return of(null)
       })
     )
@@ -40,7 +40,7 @@ export class AuthService {
     })
     .pipe(
       catchError(error => {
-        alert('Could not create account, try again');
+        alert(error);
         return of(null);
       })
     )
