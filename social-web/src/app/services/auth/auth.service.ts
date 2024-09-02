@@ -17,7 +17,8 @@ export class AuthService {
     return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-in`, { email, password })
     .pipe(
       catchError(error => {
-        alert(error)
+        alert('Error');
+        console.log(error)
         return of(null)
       })
     )
@@ -40,7 +41,8 @@ export class AuthService {
     })
     .pipe(
       catchError(error => {
-        alert(error);
+        alert('Error');
+        console.log(error)
         return of(null);
       })
     )

@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { UsersService } from '../services/users/users.service';
 import { User } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
