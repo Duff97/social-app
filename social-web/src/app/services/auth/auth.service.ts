@@ -26,7 +26,7 @@ export class AuthService {
       auth => {
         if (auth) {
           this.saveTokenToStorage(auth.idToken)
-          this.router.navigate(['/profile'])
+          this.router.navigate(['/home'])
           return true
         }
         return false
@@ -49,7 +49,7 @@ export class AuthService {
     .subscribe(auth => {
       if (auth) {
         this.saveTokenToStorage(auth.idToken)
-        this.router.navigate(['/profile'])
+        this.router.navigate(['/home'])
         return true
       }
       return false
