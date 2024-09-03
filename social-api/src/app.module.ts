@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
     FirebaseModule, 
     AuthModule, 
     UsersModule,
+    GroupsModule,
     MongooseModule.forRoot(process.env.DATABASE_STRING),
   ],
   controllers: [AppController],

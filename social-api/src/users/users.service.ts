@@ -1,4 +1,4 @@
-import { BadGatewayException, ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { BadGatewayException, Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './schemas/user.schema'
