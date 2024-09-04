@@ -25,14 +25,13 @@ export class AppComponent {
     if (!token && !this.isAuthRoute()) {
       this.router.navigate(['/sign-in']);
     } else if (token) {
-      this.userService.getProfile().subscribe(user => {
-        if (user) {
+      try {
+        this.userService.getProfile().subscribe(user => {
           this.userService.setCurrentUser(user)
-        }
-        else {
-          this.router.navigate(['/sign-in'])
-        }
-      })
+        })
+      } catch(error) {
+        this.router.navigate(['/sign-in'])
+      }      
     }
   }
 
