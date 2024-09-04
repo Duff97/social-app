@@ -4,11 +4,12 @@ import { AuthService } from './services/auth/auth.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CommonModule, Location } from '@angular/common';
 import { UsersService } from './services/users/users.service';
+import { PopupComponent } from './components/popup/popup.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, CommonModule],
+  imports: [RouterOutlet, NavbarComponent, CommonModule, PopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
