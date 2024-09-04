@@ -15,21 +15,9 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http.post<Auth>(`${environment.apiUrl}/auth/sign-in`, { email, password })
-    .pipe(
-      catchError(error => {
-        alert('Error');
-        console.log(error)
-        return of(null)
-      })
-    )
-    .subscribe(
-      auth => {
-        if (auth) {
-          this.saveTokenToStorage(auth.idToken)
-          this.router.navigate(['/home'])
-          return true
-        }
-        return false
+      .subscribe(auth => {
+        this.saveTokenToStorage(auth.idToken)
+        this.router.navigate(['/home'])
       })
   }
 
@@ -39,23 +27,12 @@ export class AuthService {
       email,
       password
     })
-    .pipe(
-      catchError(error => {
-        alert('Error');
-        console.log(error)
-        return of(null);
-      })
-    )
-    .subscribe(auth => {
-      if (auth) {
+      .subscribe(auth => {
         this.saveTokenToStorage(auth.idToken)
         this.router.navigate(['/home'])
-        return true
-      }
-      return false
-    })
+      })
   }
-  
+
   signOut() {
     localStorage.removeItem(this.localStorageKey)
     this.router.navigate(['/sign-in'])

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../../../interfaces/user.interface';
 import { environment } from '../../../environments/environment';
-import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +21,5 @@ export class UsersService {
 
   getProfile() {
     return this.http.get<User>(`${environment.apiUrl}/users/profile`)
-    .pipe(
-      catchError(error => {
-        console.log(error)
-        return of(null)
-      })
-    )
   }
 }

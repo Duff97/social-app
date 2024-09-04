@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, NotFoundException } from '@nestjs/common';
 import * as FirebaseAuth from 'firebase/auth';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -26,12 +26,16 @@ export class AuthController {
 
   @Post('sign-in')
   async signIn(@Body() { email, password }: SignInDto) {
-    const userCredential = await FirebaseAuth.signInWithEmailAndPassword(
-      FirebaseAuth.getAuth(),
-      email,
-      password,
-    );
+    try {
+      const userCredential = await FirebaseAuth.signInWithEmailAndPassword(
+        FirebaseAuth.getAuth(),
+        email,
+        password,
+      );
 
-    return { idToken: await userCredential.user.getIdToken() };
+      return { idToken: await userCredential.user.getIdToken() };
+    } catch (error) {
+      throw new NotFoundException('Email or password incorrect')
+    }
   }
 }
