@@ -9,7 +9,13 @@ import { Group } from '../../../interfaces/group.interface';
 export class GroupsService {
   http = inject(HttpClient)
 
-  getGroups() {
-    return this.http.get<Group>(`${environment.apiUrl}/users/profile`)
+  get() {
+    return this.http.get<Group[]>(`${environment.apiUrl}/groups`)
+  }
+
+  create(newGroup : Group) {
+    return this.http.post<Group>(`${environment.apiUrl}/groups`, {
+      ...newGroup
+    })
   }
 }
