@@ -17,11 +17,14 @@ import { CreateGroupFormComponent } from './components/create-group-form/create-
 export class GroupListComponent {
   groupsService = inject(GroupsService)
   popupService = inject(PopupService)
-  groups = signal<Group[]>([])
+
+  getGroups(){
+    return this.groupsService.getGroups()
+  }
 
   ngOnInit() {
     this.groupsService.get().subscribe(groups => {
-      this.groups.set(groups)
+      this.groupsService.set(groups)
     })
   }
 

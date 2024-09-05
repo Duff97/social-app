@@ -1,6 +1,6 @@
 <div class="w-[300px] min-h-[80dvh] bg-bg-secondary p-5 flex flex-col gap-5">
-  <span *ngIf="groups().length == 0">You don't have any groups! Join or create one to get started...</span>
-  <app-group-item *ngFor="let group of groups()" />
+  <span *ngIf="getGroups().length == 0">You don't have any groups! Join or create one to get started...</span>
+  <app-group-item *ngFor="let group of getGroups()" [name]="group.name" />
   <div class="flex justify-around">
     <button mat-raised-button (click)="showCreateForm()">Create</button>
     <button mat-raised-button (click)="showJoinForm()">Join</button>

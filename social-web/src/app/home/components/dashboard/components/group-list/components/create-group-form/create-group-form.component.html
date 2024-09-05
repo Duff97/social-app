@@ -1,1 +1,8 @@
-<p>create-group-form works!</p>
+<form class="rounded-2xl p-10 flex flex-col gap-3 " (submit)="formSubmit($event)">
+  <h1 class="text-3xl font-bold text-secondary pb-3">Create a group!</h1>
+  <mat-form-field>
+    <mat-label>name</mat-label>
+    <input name="name" type="text" matInput>
+  </mat-form-field>
+  <button type="submit" mat-stroked-button>Create</button>
+</form>

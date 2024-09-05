@@ -7,7 +7,7 @@ export class PopupService {
 
   displayedComponent = signal<Type<Component> | null>(null)
 
-  display(c : Type<Component>) {
+  display(c : Type<any>) {
     this.displayedComponent.set(c)
   }
 
