@@ -10,10 +10,10 @@ export class Group {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  @Prop({ type: String, required: true, ref: 'User' })
   owner: User;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] })
+  @Prop({ type: [{ type: String, ref: 'User' }], default: [] })
   members: User[];
 
   @Prop({ default: '' })

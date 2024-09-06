@@ -11,9 +11,17 @@ const JOIN_CODE_EXPIRATION_DAYS = 7000
 export class GroupsService {
   constructor(@InjectModel(Group.name) private groupModel: Model<Group>, @InjectModel(User.name) private userModel: Model<User>) { }
 
+  findOne(id: string) {
+    return this.groupModel
+    .findById(id)
+    .populate(['owner', 'members'])
+    .exec()
+  }
+
   create(user_id: string, createGroupDto: CreateGroupDto) {
+
     const userToSave = new this.groupModel({
-      owner_id: user_id,
+      owner: user_id,
       ...createGroupDto
     })
     return userToSave.save()
@@ -29,14 +37,13 @@ export class GroupsService {
   }
 
   async join(user_id: string, code: string) {
-    const groupToJoin = await this.groupModel.findOne({ join_code: code }).exec()
-    const joiningUser = await this.userModel.findById(user_id).exec()
+    const groupToJoin = await this.groupModel.findOne({ join_code: code }).populate(['owner', 'members']).exec()
 
     if (!groupToJoin) {
       throw new NotFoundException('Group not found or invalid join code')
     }
 
-    if (groupToJoin.members.includes(joiningUser) || groupToJoin.owner._id === user_id) {
+    if (groupToJoin.members.findIndex(member => member._id == user_id) !== -1) {
       throw new BadRequestException('User is already in the group')
     }
 
@@ -46,12 +53,15 @@ export class GroupsService {
       throw new ForbiddenException('Join code has expired')
     }
 
-    groupToJoin.members.push(joiningUser)
-    return groupToJoin.save()
+    groupToJoin.set('members', [
+      ...groupToJoin.members.map(member => member._id),
+      user_id
+    ])
+    return (await groupToJoin.save()).populate(['owner', 'members'])
   }
 
   async generateJoinCode(group_id: string, user_id: string) {
-    const targetGroup = await this.groupModel.findById(group_id).exec()
+    const targetGroup = await this.findOne(group_id)
 
     if (!targetGroup) {
       throw new NotFoundException('Group not found')

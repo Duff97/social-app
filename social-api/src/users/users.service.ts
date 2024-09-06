@@ -2,7 +2,7 @@ import { BadGatewayException, Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './schemas/user.schema'
-import { Model } from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 
 @Injectable()

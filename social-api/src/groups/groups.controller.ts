@@ -3,7 +3,6 @@ import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { User } from 'src/users/schemas/user.schema';
 
 @Controller('groups')
 @UseGuards(AuthGuard('bearer'))
