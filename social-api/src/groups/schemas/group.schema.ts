@@ -1,25 +1,26 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
 
-export type GroupDocument = HydratedDocument<Group>
+export type GroupDocument = HydratedDocument<Group>;
 
 @Schema()
 export class Group {
 
   @Prop({ required: true })
-  name: string
+  name: string;
 
-  @Prop({required: true, ref: 'users'})
-  owner_id: string
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  owner: User;
 
-  @Prop({ type: [String], ref: 'users', default: [] })
-  member_ids: string[]
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] })
+  members: User[];
 
-  @Prop({default: ''})
-  join_code: string
+  @Prop({ default: '' })
+  join_code: string;
 
   @Prop({ type: Date, default: () => new Date(0) })
-  join_code_expiration_date: Date
+  join_code_expiration_date: Date;
 }
 
-export const GroupSchema = SchemaFactory.createForClass(Group)
+export const GroupSchema = SchemaFactory.createForClass(Group);

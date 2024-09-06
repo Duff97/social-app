@@ -3,12 +3,13 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group } from './schemas/group.schema';
 import { Model } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
 
 const JOIN_CODE_EXPIRATION_DAYS = 7000
 
 @Injectable()
 export class GroupsService {
-  constructor(@InjectModel(Group.name) private groupModel: Model<Group>) { }
+  constructor(@InjectModel(Group.name) private groupModel: Model<Group>, @InjectModel(User.name) private userModel: Model<User>) { }
 
   create(user_id: string, createGroupDto: CreateGroupDto) {
     const userToSave = new this.groupModel({
@@ -21,20 +22,21 @@ export class GroupsService {
   findAll(user_id: string) {
     return this.groupModel.find({
       $or: [
-        { owner_id: user_id },
-        { member_ids: { $in: [user_id] } }
+        { owner: user_id },
+        { members: { $in: [user_id] } }
       ]
     }).exec();
   }
 
   async join(user_id: string, code: string) {
     const groupToJoin = await this.groupModel.findOne({ join_code: code }).exec()
+    const joiningUser = await this.userModel.findById(user_id).exec()
 
     if (!groupToJoin) {
       throw new NotFoundException('Group not found or invalid join code')
     }
 
-    if (groupToJoin.member_ids.includes(user_id) || groupToJoin.owner_id === user_id) {
+    if (groupToJoin.members.includes(joiningUser) || groupToJoin.owner._id === user_id) {
       throw new BadRequestException('User is already in the group')
     }
 
@@ -44,7 +46,7 @@ export class GroupsService {
       throw new ForbiddenException('Join code has expired')
     }
 
-    groupToJoin.member_ids.push(user_id)
+    groupToJoin.members.push(joiningUser)
     return groupToJoin.save()
   }
 
@@ -55,7 +57,7 @@ export class GroupsService {
       throw new NotFoundException('Group not found')
     }
 
-    if (targetGroup.owner_id !== user_id) {
+    if (targetGroup.owner._id !== user_id) {
       throw new ForbiddenException('Only group owner can generate join codes')
     }
 
