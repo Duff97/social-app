@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req, Param } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -12,6 +12,16 @@ export class GroupsController {
   @Post()
   create(@Req() req: Request, @Body() createGroupDto: CreateGroupDto) {
     return this.groupsService.create(req.user.user_id, createGroupDto);
+  }
+
+  @Get('join/:code')
+  join(@Req() req: Request, @Param('code') code: string) {
+    return this.groupsService.join(req.user.user_id, code);
+  }
+
+  @Get(':id/code')
+  generateJoinCode(@Req() req: Request, @Param('id') id: string) {
+    return this.groupsService.generateJoinCode(id, req.user.user_id)
   }
 
   @Get()
